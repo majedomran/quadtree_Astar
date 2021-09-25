@@ -34,7 +34,7 @@ class MainObject:
         self.canvas.pack(side=LEFT)
 
         # self.canvas.create_image((0, 0), anchor=NW)
-        self.image_item = self.open('C:\Users\Black Pirate\Desktop\Wallpaper\wolf.jpg', 'r')
+        self.image_item = self.open('\Users\Black Pirate\Desktop\Wallpaper\wolf.jpg', 'r')
 
         rightframe = Frame(self.root)
         rightframe.pack(side=LEFT, fill=Y)
