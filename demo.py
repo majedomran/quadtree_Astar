@@ -33,8 +33,7 @@ class MainObject:
                              width=MAPSIZE, height=MAPSIZE)
         self.canvas.pack(side=LEFT)
 
-        # self.canvas.create_image((0, 0), anchor=NW)
-        self.image_item = self.open('\Users\Black Pirate\Desktop\Wallpaper\wolf.jpg', 'r')
+        self.image_item = self.canvas.create_image((0, 0), anchor=NW)
 
         rightframe = Frame(self.root)
         rightframe.pack(side=LEFT, fill=Y)
