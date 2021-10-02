@@ -7,14 +7,15 @@ import random
 
 
 IMPASSABLE = 0, 0, 0
-PASSABLE = 220, 220, 220
+PASSABLE = 255, 255, 255
 
 
 def generate_map(size, kernelsize, numiterations):
-    im = Image.new('RGB', (size, size), color=IMPASSABLE)
-    
+    im = Image.open('./pixil-frame-0.png',mode='r',formats=None)
+
     # init with random data
     for x in range(0, im.width):
+        print(x)
         for y in range(0, im.height):
             im.putpixel((x, y), random.choice([IMPASSABLE, PASSABLE]))
 

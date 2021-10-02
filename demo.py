@@ -35,11 +35,10 @@ class MainObject:
                              width=MAPSIZE, height=MAPSIZE,)
         self.canvas.pack(side=LEFT)
 
-        self.img = PhotoImage(
-            file="C:\\Users\\Black Pirate\\Desktop\\KSU all subject\Project\\quadtree_Astar\\Map.png")
+     
 
         self.image_item = self.canvas.create_image(
-            (0, 0), anchor=NW, image=self.img)
+            (0, 0), anchor=NW)
 
         rightframe = Frame(self.root)
         rightframe.pack(side=LEFT, fill=Y)
@@ -191,7 +190,8 @@ class MainObject:
 
     def onButtonQuadTreePress(self):
         if not self.mapimage:
-            return
+            print('there\'s no photo')
+            return 
 
         depthlimit = int(self.limitspin.get())
         self.quadtree = quadtree.Tile(self.mapimage, limit=depthlimit)
