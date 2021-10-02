@@ -4,11 +4,13 @@
 """
 from tkinter import *
 from PIL import ImageTk, ImageDraw
+import PIL
 import mapgen
 import quadtree
 import astar
 import graph
 
+from PIL import Image
 
 # square map height and width. power of 2. e.g 256, 512, 1024
 MAPSIZE = 512
@@ -30,10 +32,14 @@ class MainObject:
         self.root.title("QuadTree A*")
 
         self.canvas = Canvas(self.root, bg='gray',
-                             width=MAPSIZE, height=MAPSIZE)
+                             width=MAPSIZE, height=MAPSIZE,)
         self.canvas.pack(side=LEFT)
 
-        self.image_item = self.canvas.create_image((0, 0), anchor=NW)
+        self.img = PhotoImage(
+            file="C:\\Users\\Black Pirate\\Desktop\\KSU all subject\Project\\quadtree_Astar\\Map.png")
+
+        self.image_item = self.canvas.create_image(
+            (0, 0), anchor=NW, image=self.img)
 
         rightframe = Frame(self.root)
         rightframe.pack(side=LEFT, fill=Y)
