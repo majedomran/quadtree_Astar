@@ -8,16 +8,21 @@ import random
 
 IMPASSABLE = 0, 0, 0
 PASSABLE = 255, 255, 255
+imagePath = './images/Circuls.png'
 
 
 def generate_map(size, kernelsize, numiterations):
-    im = Image.open('./pixil-frame-0.png',mode='r',formats=None)
+    orIm = Image.open(imagePath,mode='r',formats=None)
+    im = Image.new('RGB', (orIm.height, orIm.width), color=IMPASSABLE)
 
-    # init with random data
+
     for x in range(0, im.width):
-        print(x)
+        print('Progress is: ', x, ' -- ',im.width)
         for y in range(0, im.height):
-            im.putpixel((x, y), random.choice([IMPASSABLE, PASSABLE]))
+            coordinate = x, y 
+            rgba = orIm.getpixel(coordinate) # get the each pixel from the photo in rgba
+            rgb = (rgba[0], rgba[1], rgba[2]) # turn it from rgba to only rgb
+            im.putpixel((x, y), rgb) # insert the pixel rgb into the map 
 
     # apply filter multiple times
     for i in range(numiterations):
