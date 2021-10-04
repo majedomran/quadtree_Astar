@@ -8,7 +8,10 @@ import random
 
 IMPASSABLE = 0, 0, 0
 PASSABLE = 255, 255, 255
-imagePath = './images/Circuls.png'
+imagePath = './images/Squares.png' # choose in the interface from certian images in the path 
+# import image => you can navigate your self with any image and then it would be proccesed to the right size
+# or
+# load image => opens the right size 2*n (ready to use)
 
 
 def generate_map(size, kernelsize, numiterations):

@@ -13,7 +13,7 @@ import graph
 from PIL import Image
 
 # square map height and width. power of 2. e.g 256, 512, 1024
-MAPSIZE = 512
+MAPSIZE = 512 # get to the colser number 2*n by filling the left space with passiable pixels
 
 
 class MainObject:
