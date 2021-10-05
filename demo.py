@@ -3,6 +3,8 @@
     (c) Volker Poplawski 2018
 """
 from tkinter import *
+from tkinter import filedialog
+import tkinter
 from PIL import ImageTk, ImageDraw
 import PIL
 import mapgen
@@ -13,7 +15,7 @@ import graph
 from PIL import Image
 
 # square map height and width. power of 2. e.g 256, 512, 1024
-MAPSIZE = 512 # get to the colser number 2*n by filling the left space with passiable pixels
+MAPSIZE = 512  # get to the colser number 2*n by filling the left space with passiable pixels
 
 
 class MainObject:
@@ -34,8 +36,6 @@ class MainObject:
         self.canvas = Canvas(self.root, bg='gray',
                              width=MAPSIZE, height=MAPSIZE,)
         self.canvas.pack(side=LEFT)
-
-     
 
         self.image_item = self.canvas.create_image(
             (0, 0), anchor=NW)
@@ -72,7 +72,7 @@ class MainObject:
         self.iterspin = Spinbox(frame2, from_=0, to=100, textvariable=var)
         self.iterspin.pack(expand=True)
 
-        genbtn = Button(mapframe, text="Generate Map",
+        genbtn = Button(mapframe, text="Upload Image",
                         command=self.onButtonGeneratePress)
         genbtn.pack(pady=2)
 
@@ -177,8 +177,10 @@ class MainObject:
 
         self.root.config(cursor="watch")
         self.root.update()
-        self.mapimage = mapgen.generate_map(
-            MAPSIZE, kernelsize=ksize, numiterations=numiter)
+        uploadImage = filedialog.askopenfilename(
+            title='Select Image', filetypes=(('png files', '*.png'), ('all files', '*.*')))
+        self.mapimage = mapgen.generate_map(uploadImage,
+                                            MAPSIZE, kernelsize=ksize, numiterations=numiter)
         self._updateimage(self.mapimage)
         self.quadtree = None
         self.qtlabelvar.set("")
@@ -191,7 +193,7 @@ class MainObject:
     def onButtonQuadTreePress(self):
         if not self.mapimage:
             print('there\'s no photo')
-            return 
+            return
 
         depthlimit = int(self.limitspin.get())
         self.quadtree = quadtree.Tile(self.mapimage, limit=depthlimit)
