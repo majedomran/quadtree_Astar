@@ -15,7 +15,7 @@ PASSABLE = 255, 255, 255
 
 
 def generate_map(imagePath, size, kernelsize, numiterations):
-    orIm = Image.open(imagePath, mode='r', formats=None)
+    orIm = Image.open(imagePath, mode='r')
     im = Image.new('RGB', (orIm.height, orIm.width), color=IMPASSABLE)
 
     for x in range(0, im.width):

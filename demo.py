@@ -72,9 +72,13 @@ class MainObject:
         self.iterspin = Spinbox(frame2, from_=0, to=100, textvariable=var)
         self.iterspin.pack(expand=True)
 
-        genbtn = Button(mapframe, text="Upload Image",
+        genbtn = Button(mapframe, text="Upload Images From Images",
                         command=self.onButtonGeneratePress)
-        genbtn.pack(pady=2)
+        genbtn.pack(pady=5)
+
+        genbtn1 = Button(mapframe, text="Upload Images From Root",
+                         command=self.onButtonGeneratePress1)
+        genbtn1.pack()
 
         qtframe = Frame(rightframe, relief=SUNKEN, borderwidth=2)
         qtframe.pack(fill=X, padx=5, pady=5)
@@ -178,7 +182,26 @@ class MainObject:
         self.root.config(cursor="watch")
         self.root.update()
         uploadImage = filedialog.askopenfilename(
-            title='Select Image', filetypes=(('png files', '*.png'), ('all files', '*.*')))
+            title='Select Image', initialdir='./images', filetypes=(('png files', '*.png'), ('all files', '*.*')))
+        self.mapimage = mapgen.generate_map(uploadImage,
+                                            MAPSIZE, kernelsize=ksize, numiterations=numiter)
+        self._updateimage(self.mapimage)
+        self.quadtree = None
+        self.qtlabelvar.set("")
+        self.canvas.delete(self.startpoint)
+        self.startpoint = None
+        self.astarlabelvar.set("")
+        self.pathlabelvar.set("")
+        self.root.config(cursor="")
+
+    def onButtonGeneratePress1(self):
+        ksize = int(self.kernelsizevar.get().split('*')[0])
+        numiter = int(self.iterspin.get())
+
+        self.root.config(cursor="watch")
+        self.root.update()
+        uploadImage = filedialog.askopenfilename(
+            title='Select Image', initialdir='/', filetypes=(('png files', '*.png'), ('all files', '*.*')))
         self.mapimage = mapgen.generate_map(uploadImage,
                                             MAPSIZE, kernelsize=ksize, numiterations=numiter)
         self._updateimage(self.mapimage)
