@@ -20,6 +20,7 @@ MAPSIZE = 512  # get to the colser number 2*n by filling the left space with pas
 
 class MainObject:
     def run(self):
+        self.uploadImage = None
         self.mapimage = None
         self.quadtree = None
         self.startpoint = None
@@ -72,12 +73,12 @@ class MainObject:
         self.iterspin = Spinbox(frame2, from_=0, to=100, textvariable=var)
         self.iterspin.pack(expand=True)
 
-        genbtn = Button(mapframe, text="Upload Images From Images",
+        genbtn = Button(mapframe, text="Load Image",
                         command=self.onButtonGeneratePress)
         genbtn.pack(pady=5)
 
-        genbtn1 = Button(mapframe, text="Upload Images From Root",
-                         command=self.onButtonGeneratePress1)
+        genbtn1 = Button(mapframe, text="Generate Map Image",
+                         command=self.onButtonGenerateMap)
         genbtn1.pack()
 
         qtframe = Frame(rightframe, relief=SUNKEN, borderwidth=2)
@@ -181,11 +182,11 @@ class MainObject:
 
         self.root.config(cursor="watch")
         self.root.update()
-        uploadImage = filedialog.askopenfilename(
+        self.uploadImage = filedialog.askopenfilename(
             title='Select Image', initialdir='./images', filetypes=(('png files', '*.png'), ('all files', '*.*')))
-        self.mapimage = mapgen.generate_map(uploadImage,
+        self.mapimage = mapgen.generate_map(self.uploadImage,
                                             MAPSIZE, kernelsize=ksize, numiterations=numiter)
-        self._updateimage(self.mapimage)
+        self._updateimage(self.uploadImage)
         self.quadtree = None
         self.qtlabelvar.set("")
         self.canvas.delete(self.startpoint)
@@ -194,15 +195,14 @@ class MainObject:
         self.pathlabelvar.set("")
         self.root.config(cursor="")
 
-    def onButtonGeneratePress1(self):
+    def onButtonGenerateMap(self):
         ksize = int(self.kernelsizevar.get().split('*')[0])
         numiter = int(self.iterspin.get())
 
         self.root.config(cursor="watch")
         self.root.update()
-        uploadImage = filedialog.askopenfilename(
-            title='Select Image', initialdir='/', filetypes=(('png files', '*.png'), ('all files', '*.*')))
-        self.mapimage = mapgen.generate_map(uploadImage,
+
+        self.mapimage = mapgen.generate_map(self.uploadImage,
                                             MAPSIZE, kernelsize=ksize, numiterations=numiter)
         self._updateimage(self.mapimage)
         self.quadtree = None

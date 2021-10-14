@@ -19,7 +19,7 @@ def generate_map(imagePath, size, kernelsize, numiterations):
     im = Image.new('RGB', (orIm.height, orIm.width), color=IMPASSABLE)
 
     for x in range(0, im.width):
-        print('Progress is: ', x, ' -- ', im.width)
+        # print('Progress is: ', x, ' -- ', im.width)
         for y in range(0, im.height):
             coordinate = x, y
             # get the each pixel from the photo in rgba
