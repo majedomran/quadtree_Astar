@@ -20,7 +20,7 @@ MAPSIZE = 512  # get to the colser number 2*n by filling the left space with pas
 
 class MainObject:
     def run(self):
-        self.uploadImage = None
+        self.imgPath = None
         self.mapimage = None
         self.quadtree = None
         self.startpoint = None
@@ -182,11 +182,11 @@ class MainObject:
 
         self.root.config(cursor="watch")
         self.root.update()
-        self.uploadImage = filedialog.askopenfilename(
+
+        self.imgPath = filedialog.askopenfilename(
             title='Select Image', initialdir='./images', filetypes=(('png files', '*.png'), ('all files', '*.*')))
-        self.mapimage = mapgen.generate_map(self.uploadImage,
-                                            MAPSIZE, kernelsize=ksize, numiterations=numiter)
-        self._updateimage(self.uploadImage)
+
+        self._updateimage(Image.open(self.imgPath))
         self.quadtree = None
         self.qtlabelvar.set("")
         self.canvas.delete(self.startpoint)
@@ -202,7 +202,7 @@ class MainObject:
         self.root.config(cursor="watch")
         self.root.update()
 
-        self.mapimage = mapgen.generate_map(self.uploadImage,
+        self.mapimage = mapgen.generate_map(self.imgPath,
                                             MAPSIZE, kernelsize=ksize, numiterations=numiter)
         self._updateimage(self.mapimage)
         self.quadtree = None
@@ -215,7 +215,6 @@ class MainObject:
 
     def onButtonQuadTreePress(self):
         if not self.mapimage:
-            print('there\'s no photo')
             return
 
         depthlimit = int(self.limitspin.get())
