@@ -156,18 +156,30 @@ class MainObject:
         self.astarlabelvar.set(
             "Nodes visited: {} considered: {}".format(len(distances), considered))
         for tile in distances:
-            fill_tile(draw, tile, color=(0xC0, 0xC0, 0xFF))
-
+            fill_tile(draw, tile, color=None)
         if path:
+            tempPath = self.combinePoints(path, (startx, starty))
+            for points in tempPath:
+                drawLine(draw, points, (0,0,0))
             self.pathlabelvar.set("Path Cost: {}  Nodes: {}".format(
                 round(distances[goal], 1), len(path)))
             for tile in path:
-                fill_tile(draw, tile, color=(0, 0, 255))
+                fill_tile(draw, tile, color=None)
         else:
             self.pathlabelvar.set("No Path found.")
 
         self._updateimage(im)
+    
+    def combinePoints(self, path, startPoint):
 
+        index = 1
+        combinedPoints = []
+        combinedPoints.append({'p1': startPoint, 'p2': path[index].center()})
+        while index < len(path) - 1:
+            point = {'p1': path[index].center(), 'p2': path[index+1].center()}
+            combinedPoints.append(point)
+            index = index + 1
+        return combinedPoints
     def onMouseButton1Release(self, event):
         self.drag_startp = False
 
@@ -259,7 +271,8 @@ def draw_tile(draw, tile, color):
 def fill_tile(draw, tile, color):
     draw.rectangle([tile.bb.x+1, tile.bb.y+1, tile.bb.x+tile.bb.w-1,
                     tile.bb.y+tile.bb.h-1], outline=None, fill=color)
-
+def drawLine(draw, points, color):
+    draw.line((points['p1'], points['p2']),fill=color,joint='curve')
 
 if __name__ == '__main__':
     o = MainObject()
